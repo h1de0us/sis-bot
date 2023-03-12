@@ -22,12 +22,23 @@ collection = db['messages']
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "TODO")
+    bot.reply_to(message, "сис! чем можем помочь? 👀")
 
 
-@bot.message_handler(commands=['/register'])
+@bot.message_handler(commands=['register'])
 def register(message):
     pass
+
+@bot.message_handler(commands=['kvas'])
+def kvas(message):
+    pass
+
+
+@bot.message_handler(commands=['cola'])
+def cola(message):
+    bot.send_message(message.chat.id, "🥤")
+
+
 
 
 @bot.message_handler(func=lambda message: message.chat.id == receiver and message.reply_to_message is not None,
