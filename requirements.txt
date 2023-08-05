@@ -8,7 +8,7 @@ fenics-ffc==2019.1.0.post0
 fenics-fiat==2019.1.0
 fenics-ufl==2019.1.0
 idna==3.4
-mpmath==1.2.1
+mpmath==1.3.0
 numpy==1.24.2
 pymongo==4.3.3
 pyTelegramBotAPI==4.7.1
