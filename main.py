@@ -48,11 +48,10 @@ def handle_admin_reply(message):
     # look up the uid based on the forwarded message ID
     reply = message.reply_to_message
 
-    # skip if we reply inside admins' chat:
-    if reply.chat.id == receiver:
-        return
-
     result = collection.find_one({'message_id': reply.message_id})
+    # for old messages and replies inside the admin chat
+    if not result:
+        return
     # retrieve the user ID from the database based on the unique identifier
     user_id = result['user_id']
 
