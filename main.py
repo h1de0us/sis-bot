@@ -82,13 +82,12 @@ def handle_admin_reply(message):
                      content_types=['text', 'audio', 'photo', 'voice', 'video', 'document',
                                     'location', 'contact', 'sticker'])
 def redirect(message):
-    # print('in redirect')
     # forward the message to the admin chat
     forwarded_message = bot.forward_message(receiver, message.chat.id, message.message_id)
 
     # store the message and author information in the database
     doc = {
-        'id': telebot.util.extract_arguments(message.text) if message.text else None,  # вот тут проблема
+        'text': telebot.util.extract_arguments(message.text) if message.text else None,  # вот тут проблема
         'user_id': message.from_user.id,
         'chat_id': message.chat.id,
         'message_id': forwarded_message.message_id
