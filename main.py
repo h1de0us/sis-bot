@@ -19,6 +19,11 @@ client = MongoClient(data['MONGO_ADDRESS'])
 db = client['feedback-bot']
 collection = db['messages']
 
+@bot.message_handler(commands=['ping'])
+def ping(message):
+    ping_message = bot.send_message(receiver, 'ping! проверяем, что бот жив')
+    bot.delete_message(receiver, ping_message.message_id, timeout=60)
+
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
