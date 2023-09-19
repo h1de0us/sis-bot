@@ -89,13 +89,13 @@ def redirect(message):
     # forward the message to the admin chat
     forwarded_message = bot.forward_message(receiver, message.chat.id, message.message_id)
 
-    # store the message and author information in the database
+    # store message metadata and author information in the database
     doc = {
-        'text': telebot.util.extract_arguments(message.text) if message.text else None,  # вот тут проблема
         'user_id': message.from_user.id,
         'chat_id': message.chat.id,
         'message_id': forwarded_message.message_id
     }
     result = collection.insert_one(doc)
 
+# TODO: check whether this works with a telegram supergroup
 bot.infinity_polling()
