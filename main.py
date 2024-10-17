@@ -1,23 +1,17 @@
 import telebot
 import json
-
-with open('config.json', 'r') as config:
-    data = json.load(config)
-
-
-# bot = telebot.TeleBot(os.getenv('CUC_BOT_TOKEN'), parse_mode=None)
-bot = telebot.TeleBot(data['CUC_BOT_TOKEN'])
-# receiver = int(os.getenv('CHAT_ID'))
-receiver = int(data['CHAT_ID'])
-# print(receiver)
-
 from pymongo import MongoClient
 
-# connect to MongoDB
-# client = MongoClient('mongodb://localhost:27017/')
-client = MongoClient(data['MONGO_ADDRESS'])
-db = client['feedback-bot']
-collection = db['messages']
+
+with open('config.json', 'r') as config:
+    config = json.load(config)
+
+bot = telebot.TeleBot(config.get('BOT_TOKEN'))
+receiver = int(config.get('CHAT_ID'))
+client = MongoClient(config.get('MONGO_ADDRESS', default='mongodb://localhost:27017/'))
+db = client[config.get("db_name", default='feedback-bot')]
+collection = db[config.get("collection_name", default='messages')]
+
 
 @bot.message_handler(commands=['ping'])
 def ping(message):
@@ -27,12 +21,13 @@ def ping(message):
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "сис! чем можем помочь? 👀")
+    bot.reply_to(message, "привет! чем можем помочь? 👀")
 
 
 @bot.message_handler(commands=['register'])
 def register(message):
     pass
+
 
 @bot.message_handler(commands=['kvas'])
 def kvas(message):
@@ -44,8 +39,6 @@ def cola(message):
     bot.send_message(message.chat.id, "🥤")
 
 
-
-# message.reply_to_message is not None: wrong
 @bot.message_handler(func=lambda message: message.chat.id == receiver and message.reply_to_message is not None,
                      content_types=['text', 'audio', 'photo', 'voice', 'video', 'document',
                                     'location', 'contact', 'sticker'])
@@ -61,8 +54,6 @@ def handle_admin_reply(message):
     user_id = result['user_id']
 
     # send the admin's reply back to the user
-    # bot.send_message(user_id, message.text)
-    # bot.forward_message(user_id, message.chat.id, message.id) # to forward - non-anonymous version
     if message.text:
         bot.send_message(user_id, message.text)
     if message.audio:

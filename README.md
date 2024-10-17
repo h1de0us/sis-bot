@@ -9,24 +9,24 @@ To install all the python packages, you can run the following command:
 pip install -r requirements.txt
 ```
 
-To install MongoDB and its dependencies, you can run the mongo-setup.sh script:
+To install MongoDB, setup the bot service and create a template for the config, you can run the setup.sh script:
 
 ```commandline
-./mongo-setup.sh
+chmod +x setup.sh
+./setup.sh
 ```
 This will download and install MongoDB on your VPS.
 
 ### Running the Bot
 To run the bot, you will need to create a Telegram bot and obtain an API token. You can do this by following the instructions in the Telegram documentation.
 
-Once you have obtained an API token, you can create a file named config.json and add the following params:
-* API token 
+After acquiring the token you should fill in the blanks in the generated config file:
+* BOT_TOKEN (token from the BotFather) 
 * CHAT_ID (id of the admin chat)
 * MONGO_ADDRESS (the url needed to connect to MongoDB)
+* DB_NAME (the name of the mongo database, default is 'feedback-bot')
+* COLLECTION_NAME (the name of the mongo collection, default is 'messages')
 
-Also, there is a script named bot.service, which is needed to run the bot continuously on your VPS. This example assumes 
-that your bot script is written in Python 3 and located in /path/to/your/bot/script.py. You should adjust the User and 
-WorkingDirectory settings to match your VPS setup.
 Then, you can install the bot.service script as a systemd service:
 
 ```commandline
