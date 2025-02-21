@@ -9,8 +9,8 @@ with open('config.json', 'r') as config:
 bot = telebot.TeleBot(config.get('BOT_TOKEN'))
 receiver = int(config.get('CHAT_ID'))
 client = MongoClient(config.get('MONGO_ADDRESS', default='mongodb://localhost:27017/'))
-db = client[config.get("db_name", default='feedback-bot')]
-collection = db[config.get("collection_name", default='messages')]
+db = client[config.get("DB_NAME", default='feedback-bot')]
+collection = db[config.get("COLLECTION_NAME", default='messages')]
 
 
 @bot.message_handler(commands=['ping'])
